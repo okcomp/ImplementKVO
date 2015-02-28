@@ -47,8 +47,9 @@ static NSArray *ClassMethodNames(Class c)
     unsigned int methodCount = 0;
     Method *methodList = class_copyMethodList(c, &methodCount);
     unsigned int i;
-    for(i = 0; i < methodCount; i++)
+    for(i = 0; i < methodCount; i++) {
         [array addObject: NSStringFromSelector(method_getName(methodList[i]))];
+    }
     free(methodList);
     
     return array;
@@ -241,6 +242,7 @@ static Class kvo_class(id self, SEL _cmd)
     for (unsigned int i = 0; i < methodCount; i++) {
         SEL thisSelector = method_getName(methodList[i]);
         if (thisSelector == selector) {
+            free(methodList);
             return YES;
         }
     }
