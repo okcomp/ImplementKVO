@@ -38,11 +38,12 @@
     [super viewDidLoad];
     
     self.message = [[Message alloc] init];
+    __weak typeof(self) weakSelf = self;
     [self.message PG_addObserver:self forKey:NSStringFromSelector(@selector(text))
                        withBlock:^(id observedObject, NSString *observedKey, id oldValue, id newValue) {
                            NSLog(@"%@.%@ is now: %@", observedObject, observedKey, newValue);
                            dispatch_async(dispatch_get_main_queue(), ^{
-                               self.textfield.text = newValue;
+                               weakSelf.textfield.text = newValue;
                            });
 
     }];
